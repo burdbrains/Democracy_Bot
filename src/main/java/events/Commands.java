@@ -18,6 +18,8 @@ public class Commands extends ListenerAdapter
         super.onGuildMessageReceived(event);
         String[] messageRaw = event.getMessage().getContentRaw().split(" ");
 
+        Message messageObj = event.getMessage();
+
         TextChannel channel = event.getChannel();
 
         TextChannel demChannel = event.getGuild().getTextChannelsByName("democracy",true).get(0);
@@ -27,40 +29,44 @@ public class Commands extends ListenerAdapter
         {
             if (messageRaw.length == 3)
             {
+                User mentionedUser = messageObj.getMentionedUsers().get(0);
+
+                System.out.println(mentionedUser);
+
                 if (messageRaw[1].equalsIgnoreCase("voteban"))
                 {
-                    User inputUser = User.fromId(messageRaw[3]);
-                    if (!inputUser.equals(null))
+                    if (!mentionedUser.equals(""))
                     {
-                        Message message = new MessageBuilder().setContent("Vote to Ban " + inputUser.getAsMention()).build();
+                        Message message = new MessageBuilder().setContent("Vote to Ban " + mentionedUser.getAsMention()).build();
 
-                        channel.sendMessage(message).queue();
-                        message.addReaction("U+2705");
-                        message.addReaction("U+26D4");
+                        demChannel.sendMessage(message).queue();
+                        message.addReaction("U+2705").queue();
+                        message.addReaction("U+26D4").queue();
                     }
                 }
                 else if (messageRaw[1].equalsIgnoreCase("votemute"))
                 {
-                    User inputUser = User.fromId(messageRaw[3]);
-                    if (!inputUser.equals(null))
+                    if (!mentionedUser.equals(""))
                     {
-                        Message message = new MessageBuilder().setContent("Vote to Mute " + inputUser.getAsMention()).build();
+                        Message message = new MessageBuilder().setContent("Vote to Mute " + mentionedUser.getAsMention()).build();
 
-                        channel.sendMessage(message).queue();
-                        message.addReaction("U+2705");
-                        message.addReaction("U+26D4");
+                        demChannel.sendMessage(message).queue();
+                        // https://github.com/DV8FromTheWorld/JDA/wiki/7%29-Using-RestAction
+                        // send the message, use the callback and add the reaction.
+                        // read above ^^
+                        message.addReaction("U+2705").queue();
+                        message.addReaction("U+26D4").queue();
                     }
                 }
                 else if (messageRaw[1].equalsIgnoreCase("votedeaf"))
                 {
-                    User inputUser = User.fromId(messageRaw[3]);
-                    if (!inputUser.equals(null))
+                    if (!mentionedUser.equals(""))
                     {
-                        Message message = new MessageBuilder().setContent("Vote to Deafen " + inputUser.getAsMention()).build();
+                        Message message = new MessageBuilder().setContent("Vote to Deafen " + mentionedUser.getAsMention()).build();
 
-                        channel.sendMessage(message).queue();
-                        message.addReaction("U+2705");
-                        message.addReaction("U+26D4");
+                        demChannel.sendMessage(message).queue();
+                        message.addReaction("U+2705").queue();
+                        message.addReaction("U+26D4").queue();
                     }
                 }
                 else
